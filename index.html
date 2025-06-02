@@ -80,6 +80,15 @@
       border-radius: 5px;
       cursor: pointer;
     }
+    #thankYouMessage {
+      display: none;
+      padding: 1rem;
+      background: #e6f4ea;
+      border: 1px solid #34a853;
+      border-radius: 6px;
+      color: #0f5132;
+      margin-top: 1rem;
+    }
     footer {
       background: #333;
       color: white;
@@ -122,8 +131,7 @@
     <h2>Register Your Company</h2>
     <p>Fill in your company details to activate your own AI Assistant (7-day free trial).</p>
 
-    <form action="https://hook.eu2.make.com/u2luxbx3o1wihpsbysz8gelret1x0jze" method="POST" enctype="multipart/form-data">
-      <!-- Hidden form type field for Make.com filter -->
+    <form id="registerForm" action="https://hook.eu2.make.com/u2luxbx3o1wihpsbysz8gelret1x0jze" method="POST" enctype="multipart/form-data">
       <input type="hidden" name="form_type" value="registration">
 
       <label for="companyName">Full Company Name:</label>
@@ -137,10 +145,35 @@
 
       <button type="submit">Start Free Trial</button>
     </form>
+
+    <div id="thankYouMessage">
+      <h3 id="thankTitle">Thank you for your registration!</h3>
+      <p>We have received your details and will be in touch soon.</p>
+    </div>
   </div>
 
   <footer>
     <p>&copy; 2025 IntraSync AI. All rights reserved.</p>
   </footer>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = e.target;
+      const data = new FormData(form);
+      const companyName = document.getElementById("companyName").value;
+
+      fetch(form.action, {
+        method: "POST",
+        body: data
+      }).then(() => {
+        form.style.display = "none";
+        document.getElementById("thankYouMessage").style.display = "block";
+        document.getElementById("thankTitle").innerText = `Thank you, ${companyName}!`;
+      }).catch(() => {
+        alert("Something went wrong. Please try again.");
+      });
+    });
+  </script>
 </body>
 </html>
