@@ -143,6 +143,9 @@
       <label for="logo">Upload Company Logo:</label>
       <input type="file" id="logo" name="company_logo" accept="image/*" required>
 
+      <label for="excelFile">Upload Sample Excel File (optional, max 2MB):</label>
+      <input type="file" id="excelFile" name="company_excel" accept=".xlsx,.xls">
+
       <button type="submit">Start Free Trial</button>
     </form>
 
@@ -162,6 +165,12 @@
       const form = e.target;
       const data = new FormData(form);
       const companyName = document.getElementById("companyName").value;
+      const excelFile = document.getElementById("excelFile").files[0];
+
+      if (excelFile && excelFile.size > 2 * 1024 * 1024) {
+        alert("Excel file is too large (max 2MB).");
+        return;
+      }
 
       fetch(form.action, {
         method: "POST",
