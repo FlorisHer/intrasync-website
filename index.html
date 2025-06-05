@@ -47,19 +47,6 @@
       padding: 1rem;
       border-radius: 6px;
     }
-    .cta {
-      text-align: center;
-      margin-top: 2rem;
-    }
-    .cta button {
-      background: #1a73e8;
-      color: white;
-      border: none;
-      padding: 1rem 2rem;
-      font-size: 1rem;
-      border-radius: 5px;
-      cursor: pointer;
-    }
     form label {
       font-weight: bold;
     }
@@ -157,7 +144,7 @@
     <div id="thankYouMessage">
       <h3 id="thankTitle">Thank you for your registration!</h3>
       <p>We have received your details and will be in touch soon.</p>
-      <p>You can access your personalized website shortly at:</p>
+      <p>You can access your personalized website <strong>within a minute</strong> at:</p>
       <p><a id="companyLink" href="#" target="_blank">https://florisher.github.io/[YourCompany]</a></p>
     </div>
   </div>
@@ -167,21 +154,12 @@
   </footer>
 
   <script>
-    function slugify(text) {
-      return text.toString().toLowerCase().trim()
-        .replace(/\s+/g, '-')           // Replace spaces with -
-        .replace(/[^\w\-]+/g, '')       // Remove all non-word chars
-        .replace(/\-\-+/g, '-')         // Replace multiple - with single -
-        .replace(/^-+/, '')             // Trim - from start of text
-        .replace(/-+$/, '');            // Trim - from end of text
-    }
-
     document.getElementById("registerForm").addEventListener("submit", function(e) {
       e.preventDefault();
       const form = e.target;
       const data = new FormData(form);
-      const companyName = document.getElementById("companyName").value;
-      const slug = slugify(companyName);
+      const companyName = document.getElementById("companyName").value.trim();
+      const slug = companyName.replace(/\s+/g, ''); // Keep casing, remove spaces
       const excelFile = document.getElementById("excelFile").files[0];
 
       if (excelFile && excelFile.size > 2 * 1024 * 1024) {
@@ -196,8 +174,9 @@
         form.style.display = "none";
         document.getElementById("thankYouMessage").style.display = "block";
         document.getElementById("thankTitle").innerText = `Thank you, ${companyName}!`;
-        document.getElementById("companyLink").href = `https://florisher.github.io/${slug}/`;
-        document.getElementById("companyLink").innerText = `https://florisher.github.io/${slug}/`;
+        const fullUrl = `https://florisher.github.io/${slug}/`;
+        document.getElementById("companyLink").href = fullUrl;
+        document.getElementById("companyLink").innerText = fullUrl;
       }).catch(() => {
         alert("Something went wrong. Please try again.");
       });
