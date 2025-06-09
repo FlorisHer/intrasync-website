@@ -161,7 +161,7 @@
       const companyName = document.getElementById("companyName").value.trim();
 
       // Clean slug (remove spaces and special characters)
-      const slug = companyName.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const slug = companyName.replace(/\s+/g, '');
 
       const excelFile = document.getElementById("excelFile").files[0];
 
